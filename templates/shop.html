@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+<main>
+    <!-- Hero Section -->
+    <div class="main-shop w-full flex items-center justify-center flex-col p-4 bg-cover bg-center" style="background-image: url('{% static 'images/shop-hero-bg.jpg' %}'); height: 80vh;">
+        <div class="text-center bg-black bg-opacity-50 p-8 rounded">
+            <h1 class="text-white text-5xl font-black">#stayhome</h1>
+            <p class="text-white font-semibold mt-8 uppercase">Save more with coupons & up to 70% off!</p>
+            <button class="mt-5 py-2 px-4 bg-green-500 text-white font-bold rounded hover:bg-green-600 transition-all duration-200">
+                Shop Now
+            </button>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block sections %}
+<section class="shop-products-section py-8 bg-gray-100">
+    <div class="container mx-auto">
+        <div class="grid grid-cols-12 gap-5 main-padding" id="shopProducts">
+            {% for product in products %}
+                <div class="product-card relative col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 border border-neutral-300 shadow p-3 rounded-md bg-white hover:shadow-lg transition-shadow duration-300">
+                    <a href="{% url 'product' product.id %}">
+                        <div class="product-card-image rounded-md overflow-hidden">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="rounded-md w-full h-64 object-cover hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="product-card-info pt-2">
+                            <p class="text-neutral-500 text-lg">{{ product.model }}</p>
+                            <h3 class="main-color text-2xl font-bold">{{ product.name }}</h3>
+                            <div class="product-card-rate flex items-center gap-1 my-2">
+                                {{ product.get_stars|safe }}
+                            </div>
+                            <div class="product-card-price text-2xl font-bold main-color">${{ product.price }}</div>
+                        </div>
+                    </a>
+                    <div class="product-card-cart absolute bottom-2 right-2">
+                        <button type="button" aria-label="Add to cart" class="cart-button text-white bg-green-500 p-2 rounded-full hover:bg-green-600 transition-all duration-200" data-id="{{ product.id }}">
+                            <i class="fa-solid fa-cart-shopping text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block js %}
+<script>
+// Add To Cart FN (productId)
+document.querySelectorAll('.cart-button').forEach(button => {
+    button.addEventListener('click', function () {
+        const productId = this.dataset.id;
+        addToCart(productId);
+        showPopup('Product added to cart!');
+    });
+});
+
+function addToCart(productId) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let found = cart.find(product => product.id == productId);
+    if (found) {
+        found.quantity += 1;
+    } else {
+        let productToAdd = products.find(product => product.id == productId);
+        if (productToAdd) {
+            productToAdd.quantity = 1;
+            cart.push(productToAdd);
+        }
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function showPopup(message) {
+    const popup = document.createElement('div');
+    popup.className = 'fixed top-8 right-4 p-4 bg-green-500 text-white rounded shadow-md flex items-center gap-2 z-50';
+    popup.innerHTML = `<i class="fa-solid fa-check"></i> <span>${message}</span>`;
+    document.body.appendChild(popup);
+    setTimeout(() => {
+        popup.classList.add('fade-out');
+        setTimeout(() => {
+            document.body.removeChild(popup);
+        }, 500);
+    }, 2500);
+}
+
+// CSS for fade-out animation
+const style = document.createElement('style');
+style.innerHTML = `
+    .fade-out {
+        opacity: 0;
+        transition: opacity 0.5s ease-out;
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

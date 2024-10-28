@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block main %}
+<main class="signup main-padding pt-24">
+    <div class="grid grid-cols-12 items-center gap-5">
+        <div class="col-span-12 md:col-span-6 lg:col-span-4 p-5 bg-white border rounded-md">
+            <div>
+                <h2 class="text-2xl text-black font-bold">Sign Up</h2>
+            </div>
+            <div class="user-form-sign-up">
+                <form action="." id="signUpForm" class="signUpForm" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="flex justify-center">
+                        <img id="displayImage" src="{% static 'Images/default-avatar.png' %}" class="rounded-full" alt="Default Image" style="max-width: 100%;">
+                    </div>
+                    <div class="my-1">
+                        <h3 class=" text-lg text-neutral-500 font-semibold mb-1">Full name</h3>
+                        <input name="full_name" type="text" placeholder="Your name" class="outline-none px-1 py-2 border-2 rounded text-lg">
+                    </div>
+                    <div class="my-1">
+                        <h3 class="text-lg text-neutral-500 font-semibold mb-1">Email</h3>
+                        <input name="email" type="email" placeholder="Your Email" class="outline-none px-1 py-2 border-2 rounded text-lg">
+                    </div>
+                    <div class="my-1">
+                        <h3 class="text-lg text-neutral-500 font-semibold mb-1">Phone Number</h3>
+                        <input name="phonenumber" type="number" placeholder="Your Number" class="outline-none px-1 py-2 border-2 rounded text-lg">
+                    </div>
+                    <div class="password-container relative my-1">
+                        <h3 class="text-lg text-neutral-500 font-semibold mb-1">Password</h3>
+                        <input name="password" type="password" id="password" placeholder="Password" class="password-input outline-none px-1 py-2 border-2 rounded text-lg">
+                        <i class="fa-regular fa-eye password-icon absolute text-2xl right-2 top-10 cursor-pointer" style="display: none;"></i>
+                    </div>                                
+                    <div class="relative">
+                        <h3 class=" text-lg text-neutral-500 font-semibold mb-1">Your Picture</h3>
+                        <label for="imageInput" class="upload-button inline-block px-3 py-2 rounded text-white cursor-pointer transition-all duration-200">Upload Image <i class="fa-solid fa-upload ml-2"></i></label>
+                        <input type="file" id="imageInput" accept="image/*" name="picture" style="display: none;">
+                    </div>
+                    <div class="submit-btn flex pt-5" id="signupSubmit">
+                        <button type="submit" class="w-full py-2 text-white text-lg font-semibold rounded transition-all duration-300">Create Account</button>
+                    </div>
+                    <div class="already-account mt-3">
+                        <a href="{% url 'login' %}" class="hover:underline">Already Have An Account?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6 lg:col-span-8 my-4 justify-self-end">
+            <div class="form-image">
+                <img src="{% static 'Images/form-image.svg' %}" alt="form-image">
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+
+
+{% block js %}
+<script>
+    document.getElementById('imageInput').addEventListener('change', function(event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('displayImage').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+    const passwordInput = document.getElementById('password');
+        const toggleIcon = document.querySelector('.password-icon');
+
+        // Toggle the icon and the input type
+        toggleIcon.addEventListener('click', function() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                this.classList.remove('fa-eye');
+                this.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                this.classList.remove('fa-eye-slash');
+                this.classList.add('fa-eye');
+            }
+        });
+
+        // Show icon on input focus
+        passwordInput.addEventListener('focus', function() {
+            toggleIcon.style.display = 'block';
+        });
+
+        // Additional event listener for clicking the icon
+        toggleIcon.addEventListener('mousedown', function(event) {
+            event.preventDefault(); // Prevents the icon from losing focus
+        });
+
+        // Adjusted blur event to keep icon when interacting with input or icon
+        passwordInput.addEventListener('blur', function(event) {
+                if (!document.activeElement.closest('.password-container')) {
+                    toggleIcon.style.display = 'none';
+                }
+        });
+    </script>        
+
+{% endblock %}

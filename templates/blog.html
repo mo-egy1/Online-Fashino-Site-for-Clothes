@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block main %}
+<main>
+    <div class="main-blog w-full flex items-center justify-center flex-col p-4">
+        <div class="text-center">
+            <h1 class="text-white text-5xl font-black">Read More</h1>
+            <p class="text-white font-semibold mt-8 uppercase">Read all case studies about our products!</p>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+
+{% block sections %}
+<section class="blog-section">
+    <div class="blog-content-one main-padding hidden opacity-100 transition-opacity duration-150 ease-linear data-[twe-tab-active]:block" id="tabs-home" role="tabpanel" aria-labelledby="tabs-home-tab" data-twe-tab-active>
+        <div class="grid grid-cols-12 gap-8 pt-16 py-12 items-center">
+            <div class="blog-img col-span-12 md:col-span-6 relative">
+                <img src="{% static 'Images/blog-1.webp' %}" alt="blog-image" class="rounded">
+                <div class="date-of-puplish absolute">
+                    <h2 class="text-5xl font-black text-neutral-500">01/05</h2>
+                </div>
+            </div>
+            <div class="blog-text col-span-12 md:col-span-6 ml-4" id="item1">
+                <h3 class="text-3xl text-black font-bold">The Cotton-Jersey Zip-Up Hoodie.</h3>
+                <p class="text-lg text-neutral-500 my-4" id="blogParagraph1"></p>
+                <button class="text-lg font-bold text-black flex items-center gap-3">
+                    SHOW MORE
+                    <i class="fa-solid fa-chevron-down" id="chevronIcon"></i>
+                </button>
+            </div>             
+        </div>
+        <div class="grid grid-cols-12 gap-8 pt-16 py-12 items-center">
+            <div class="blog-img col-span-12 md:col-span-6 relative">
+                <img src="{% static 'Images/blog-2.webp' %}" alt="blog-image" class="rounded">
+                <div class="date-of-puplish absolute">
+                    <h2 class="text-5xl font-black text-neutral-500">29/04</h2>
+                </div>
+            </div>
+            <div class="blog-text col-span-12 md:col-span-6 ml-4" id="item2">
+                <h3 class="text-3xl text-black font-bold">How To Style a Quiff ...</h3>
+                <p class="text-lg text-neutral-500 my-4" id="blogParagraph2"></p>
+                <button class="text-lg font-bold text-black flex items-center gap-3">
+                    SHOW MORE
+                    <i class="fa-solid fa-chevron-down" id="chevronIcon"></i>
+                </button>
+            </div>             
+        </div>
+        <div class="grid grid-cols-12 gap-8 pt-16 py-12 items-center">
+            <div class="blog-img col-span-12 md:col-span-6 relative">
+                <img src="{% static 'Images/blog-3.jpg' %}" alt="blog-image" class="rounded">
+                <div class="date-of-puplish absolute">
+                    <h2 class="text-5xl font-black text-neutral-500">25/04</h2>
+                </div>
+            </div>
+            <div class="blog-text col-span-12 md:col-span-6 ml-4" id="item3">
+                <h3 class="text-3xl text-black font-bold">Must-Have Skater Girl Items</h3>
+                <p class="text-lg text-neutral-500 my-4" id="blogParagraph3"></p>
+                <button class="text-lg font-bold text-black flex items-center gap-3">
+                    SHOW MORE
+                    <i class="fa-solid fa-chevron-down" id="chevronIcon"></i>
+                </button>
+            </div>             
+        </div>
+        <div class="grid grid-cols-12 gap-8 pt-16 py-12 items-center">
+            <div class="blog-img col-span-12 md:col-span-6 relative">
+                <img src="{% static 'Images/blog-4.jpg' %}" alt="blog-image" class="rounded">
+                <div class="date-of-puplish absolute">
+                    <h2 class="text-5xl font-black text-neutral-500">20/04</h2>
+                </div>
+            </div>
+            <div class="blog-text col-span-12 md:col-span-6 ml-4" id="item4">
+                <h3 class="text-3xl text-black font-bold">AW20 Menswear Trends</h3>
+                <p class="text-lg text-neutral-500 my-4" id="blogParagraph4"></p>
+                <button class="text-lg font-bold text-black flex items-center gap-3">
+                    SHOW MORE
+                    <i class="fa-solid fa-chevron-down" id="chevronIcon"></i>
+                </button>
+            </div>             
+        </div>
+    </div>
+    <div class="blog-content-two main-padding hidden opacity-0 transition-opacity duration-150 ease-linear data-[twe-tab-active]:block" id="tabs-profile" role="tabpanel" aria-labelledby="tabs-profile-tab">
+        <div class="grid grid-cols-12 gap-8 pt-16 py-12 items-center">
+            <div class="blog-img col-span-12 md:col-span-6 relative">
+                <img src="{% static 'Images/b2.jpg' %}" alt="blog-image" class="rounded">
+                <div class="date-of-puplish absolute">
+                    <h2 class="text-5xl font-black text-neutral-500">16/04</h2>
+                </div>
+            </div>
+            <div class="blog-text col-span-12 md:col-span-6 ml-4" id="item5">
+                <h3 class="text-3xl text-black font-bold">Runway-Inspired Trends</h3>
+                <p class="text-lg text-neutral-500 my-4" id="blogParagraph5"></p>
+                <button class="text-lg font-bold text-black flex items-center gap-3">
+                    SHOW MORE
+                    <i class="fa-solid fa-chevron-down" id="chevronIcon"></i>
+                </button>
+            </div>     
+        </div>
+    </div>
+    <div class="tabs py-1">
+        <ul class="mb-5 flex justify-center gap-3 flex-row flex-wrap border-b-0 ps-0" role="tablist" data-twe-nav-ref>
+            <li role="presentation">
+                <a href="#tabs-home" class="text-white text-2xl font-semibold rounded" data-twe-toggle="pill" data-twe-target="#tabs-home" role="tab" aria-controls="tabs-home" aria-selected="true">1</a>
+            </li>
+            <li role="presentation">
+                <a href="#tabs-profile" class="text-white text-2xl font-semibold rounded" data-twe-toggle="pill" data-twe-target="#tabs-profile" role="tab" aria-controls="tabs-profile" aria-selected="false">2</a>
+            </li>
+        </ul>
+    </div>
+</section>
+{% endblock %}
+
+
+{% block js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const items = document.querySelectorAll(".blog-text");
+
+    items.forEach(item => {
+        const fullText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur at, quaerat eaque praesentium error quod expedita pariatur veritatis quos odio, saepe fuga dolore. Soluta accusantium animi mollitia amet temporibus cupiditate ullam dolore laboriosam! Officiis ullam itaque tempore, provident corrupti et similique at veniam aspernatur dolore laborum veritatis porro omnis architecto doloribus, quod ut iure, in cupiditate? Repudiandae, perspiciatis molestiae. Dolores ipsam voluptatem praesentium quam, rerum dolore ducimus amet ipsa obcaecati magni.";
+        const initialText = fullText.split(' ').slice(0, 28).join(' ') + ' .....';
+        const paragraph = item.querySelector('p');
+        const button = item.querySelector('button');
+        const chevron = button.querySelector('i');
+
+        paragraph.textContent = initialText;
+        paragraph.dataset.fullText = fullText;
+        paragraph.dataset.initialText = initialText;
+
+        button.addEventListener('click', function() {
+            if (button.textContent.includes('SHOW MORE')) {
+                paragraph.textContent = paragraph.dataset.fullText;
+                button.textContent = 'SHOW LESS ';
+                chevron.className = 'fa-solid fa-chevron-up';
+            } else {
+                paragraph.textContent = paragraph.dataset.initialText;
+                button.textContent = 'SHOW MORE ';
+                chevron.className = 'fa-solid fa-chevron-down';
+            }
+            button.appendChild(chevron);
+        });
+    });
+    });
+
+    let tabs = document.querySelectorAll(".tabs li a");
+    let tabsArray = Array.from(tabs);
+
+    tabsArray.forEach((element) => {
+        element.addEventListener("click" , function (event) {
+            tabsArray.forEach((element) => {
+                element.classList.remove("active-li");
+            });
+            event.currentTarget.classList.add("active-li");
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const tabOne = document.querySelector('[data-twe-target="#tabs-home"]');
+    const tabTwo = document.querySelector('[data-twe-target="#tabs-profile"]');
+
+        tabOne.click(); // Activate The First Tab On Page Load
+    });
+    </script>
+{% endblock %}

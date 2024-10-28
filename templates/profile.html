@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block main %}
+<main class="user-profile">
+    <h2 class="text-3xl font-bold text-black pt-24 main-padding">Profile</h2>
+    <div class="w-full grid grid-cols-12 gap-5 main-padding">
+        <div class="col-span-12 md:col-span-3">
+            <div class="mt-4 bg-white border border-gray-300 rounded">
+                <h2 class="border-b border-gray-300 p-2 text-xl font-semibold text-black">Profile Settings</h2>
+                <ul class="ul-tabs flex flex-col flex-wrap" role="tablist" data-twe-nav-ref>
+                    <li role="presentation" class="flex-grow flex"><a href="#tabs-home03" class="tab-link active-li-tap w-full p-3 text-lg font-semibold focus:isolate focus:border-transparent data-[twe-nav-active]:border-primary data-[twe-nav-active]:text-primary" data-twe-toggle="pill" data-twe-target="#tabs-home03" data-twe-nav-active role="tab" aria-controls="tabs-home03" aria-selected="true">Account</a></li>
+                </ul>     
+            </div>                                    
+        </div>
+        <div class="col-span-12 md:col-span-9 mb-5 md:mb-0">
+            <div class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[twe-tab-active]:block mt-4" id="tabs-home03" role="tabpanel" aria-labelledby="tabs-home-tab03" data-twe-tab-active>
+                <div class="bg-white shadow rounded-lg">
+                    <div class="px-4 py-5">
+                        <h5 class="text-xl leading-6 font-semibold text-gray-900">Public info</h5>
+                    </div>
+                    <div class="border-t border-gray-300">
+                        <form class="px-4 py-5" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="md:col-span-2">
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-medium text-gray-700" for="inputUsername">Full Name</label>
+                                        <input name="full_name" value="{{user.full_name}}" type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-emerald-600 sm:text-sm" id="inputUsername" placeholder="Edit Your Name">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-medium text-gray-700" for="inputEmail">Email</label>
+                                        <input name="email" value="{{user.email}}" rows="2" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-emerald-600 sm:text-sm resize-none" id="inputBio" placeholder="Edit Your Email"><input>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-medium text-gray-700" for="inputEmail">Phnoenumber</label>
+                                        <input name="phonenumber" value="{{user.phonenumber}}" rows="2" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-emerald-600 sm:text-sm resize-none" id="inputBio" placeholder="Edit Your Email"><input>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-1">
+                                    <div class="text-center pb-3">
+                                        <div class="flex flex-col items-center justify-center p-5">
+                                            <img id="profileImage" alt="Charles Hall" src="{% if user.picture %}{{user.picture.url}}{% else %}static/Images/default-avatar.png{% endif %}" class="rounded-full w-32 h-32 mb-5">
+                                        
+                                            <input name="picture" type="file" id="imageInput" class="hidden" accept="image/*" onchange="previewImage();">
+                                            <label for="imageInput" class="upload-button inline-block px-3 py-2 rounded text-white cursor-pointer transition-all duration-20">
+                                                Upload Image <i class="fa-solid fa-upload ml-2"></i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="save-changes inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2">Save changes</button>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>                          
+        </div> 
+    </div>
+</main>
+{% endblock %}
+
+
+
+{% block js %}
+<script>
+    document.querySelectorAll('.tab-link').forEach(function(tab) {
+tab.addEventListener('click', function() {
+    // Remove active class from all tabs
+    document.querySelectorAll('.tab-link').forEach(function(tab) {
+        tab.classList.remove('active-li-tap');
+        tab.setAttribute('aria-selected', 'false');
+    });
+
+    // Add active class to the clicked tab
+    this.classList.add('active-li-tap');
+    this.setAttribute('aria-selected', 'true');
+});
+});
+
+function previewImage() {
+const file = document.getElementById('imageInput').files[0];
+if (file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const imgElement = document.getElementById('profileImage');
+    imgElement.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+}
+</script>    
+
+{% endblock %}
+

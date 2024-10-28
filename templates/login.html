@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block main %}
+<main class="login main-padding pt-24 sm:pt-36">
+    <div class="grid grid-cols-12 items-center gap-5">
+        <div class="col-span-12 md:col-span-6 lg:col-span-4 p-5 bg-white border rounded-md">
+            <div>
+                <h2 class="text-2xl text-black font-bold">Log In</h2>
+            </div>
+            <div class="user-form-login">
+                <form action="." id="loginForm" class="loginForm" method="POST">
+                    {% csrf_token %}
+                    <div class="my-2">
+                        <h3 class=" text-lg text-neutral-500 font-semibold mb-1">Email</h3>
+                        <input name="email" type="email" placeholder="Your Email" class="outline-none px-1 py-2 border-2 rounded text-lg w-full">
+                    </div>
+                    <div class="password-container relative my-1">
+                        <h3 class="text-lg text-neutral-500 font-semibold mb-1">Password</h3>
+                        <input name="password" type="password" id="password" placeholder="Password" class="password-input outline-none px-1 py-2 border-2 rounded text-lg w-full">
+                        <i class="fa-regular fa-eye password-icon absolute text-2xl right-2 top-10 cursor-pointer" style="display: none;"></i>
+                    </div>  
+                    <div class="submit-btn flex w-full pt-5" id="loginSumbit">
+                        <button type="submit" class="w-full py-2 text-white text-lg font-semibold rounded transition-all duration-300">Log In</button>
+                    </div>
+                    <!-- <div class="forgot-password mt-3">
+                        <a href="forgot-password.html" class="hover:underline">Forgotten Password?</a>
+                    </div> -->
+                </form>
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6 lg:col-span-8 my-4 justify-self-end">
+            <div class="form-image">
+                <img src="{% static 'Images/login-image.svg' %}" alt="form-image">
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+
+
+{% block js %}
+<script>
+    const passwordInput = document.getElementById('password');
+const toggleIcon = document.querySelector('.password-icon');
+
+// Toggle the icon and the input type
+toggleIcon.addEventListener('click', function() {
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        this.classList.remove('fa-eye');
+        this.classList.add('fa-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        this.classList.remove('fa-eye-slash');
+        this.classList.add('fa-eye');
+    }
+});
+
+// Show icon on input focus
+passwordInput.addEventListener('focus', function() {
+    toggleIcon.style.display = 'block';
+});
+
+// Additional event listener for clicking the icon
+toggleIcon.addEventListener('mousedown', function(event) {
+    event.preventDefault(); // Prevents the icon from losing focus
+});
+
+// Adjusted blur event to keep icon when interacting with input or icon
+passwordInput.addEventListener('blur', function(event) {
+        if (!document.activeElement.closest('.password-container')) {
+            toggleIcon.style.display = 'none';
+        }
+});
+</script>  
+{% endblock %}

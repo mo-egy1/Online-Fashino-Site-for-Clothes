@@ -1,0 +1,260 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore top-quality, fashionable apparel for men and women. Discover our exclusive deals on the latest trends at YourBrandName. Shop now!">
+    <meta name="keywords" content="men's clothing, women's clothing, fashion apparel, trendy outfits, YourBrandName">
+    <link rel="icon" href="{% static 'Images/fav-icon.png' %}"> <!-- Website Icon -->
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/css/tw-elements.min.css"/> <!-- Tailwind Elements Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> <!-- FontAwesome Icons Import -->
+    <link rel="stylesheet" href="{% static 'CSS/input.css' %}"> <!-- Main CSS File -->
+    <title>E-Commerce</title>
+</head>
+<body>
+
+    {% for msg in messages %}
+        <script>alert("{{msg}}")</script>
+    {% endfor %}
+    <!-- Wrapper -->
+    <div class="wrapper">
+
+
+        <section class="home-section">
+            <header class="main-header w-full flex items-center justify-between fixed z-40 shadow-lg py-4 main-padding">
+                <div class="main-logo">
+                    <a href="/">
+                        <img src="{% static 'Images/logo.png' %}" alt="website-logo" width="140px" height="40px">
+                    </a>
+                </div>
+                <nav class="main-navbar flex items-center gap-4 lg:gap-8">
+                    <div class="navbar-div">
+                        <ul class="flex items-center gap-4 lg:gap-8 relative" id="navbar">
+                            <div class="x-mark-icon transition-all duration-200">
+                                <button type="button">
+                                    <i class="fa-solid fa-xmark text-3xl"></i>
+                                </button>
+                            </div>
+                            <li>
+                                <a href="{% url 'home' %}" class="flex items-center justify-center overflow-hidden relative text-lg font-bold text-neutral-600 transition-all duration-200">Home</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'shop' %}" class="flex items-center justify-center overflow-hidden relative text-lg font-bold text-neutral-600 transition-all duration-200">Shop</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'blog' %}" class="flex items-center justify-center overflow-hidden relative text-lg font-bold text-neutral-600 transition-all duration-200">Blog</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'about' %}" class="flex items-center justify-center overflow-hidden relative text-lg font-bold text-neutral-600 transition-all duration-200">About</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'contact' %}" class="flex items-center justify-center overflow-hidden relative text-lg font-bold text-neutral-600 transition-all duration-200">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="main-cart relative order-2 md:order-none">
+                        <button type="button" aria-label="View shopping cart" class="inline-block text-xs rounded" data-twe-toggle="tooltip" data-twe-placement="bottom" data-twe-ripple-init data-twe-ripple-color="light" title="Cart">
+                            <a href="{% url 'cart' %}" aria-label="View shopping cart" class="text-neutral-600 transition-all duration-200">
+                                <i class="fa-solid fa-cart-shopping text-xl sm:text-2xl"></i>
+                            </a>
+                        </button>
+                    </div>
+                    <div class="account-buttons flex items-center gap-1 lg:gap-3">
+
+                        {% if user.is_authenticated %}
+
+                            <div class="signup">
+                                <a href="{% url 'logout' %}" class="text-md sm:text-lg font-semibold px-2 sm:px-4 rounded-full" style="background-color: crimson;border-color:crimson;">Logout</a>
+                            </div>
+                        
+                        
+                            <div class="profile">
+                                <a href="{% url 'profile' %}" class="user-profile">
+                                    <img src="{% if user.picture %}{{user.picture.url}}{% else %}static/Images/default-avatar.png{% endif %}" alt="user-image">
+                                </a>
+                            </div>
+
+                            {% else %}
+                            <div class="signup">
+                                <a href="{% url 'register' %}" class="text-md sm:text-lg font-semibold px-2 sm:px-4 rounded-full">Sign Up</a>
+                            </div>
+                            <div class="login">
+                                <a href="{% url 'login' %}" class="text-md sm:text-lg font-semibold text-white px-2 sm:px-4 rounded-full">Log In</a>
+                            </div>
+                            
+                        {% endif %}
+                    </div>
+                    <div class="menu-icon order-3 md:order-none">
+                        <button type="button" id="menu-toggle">
+                            <i class="fa-solid fa-bars text-2xl"></i>
+                        </button>
+                    </div>
+                </nav>
+            </header>
+
+            {% block main %}
+            {% endblock %}
+            
+        </section>
+
+
+            {% block sections %}
+            {% endblock %}
+
+
+        <section class="news-letter">
+            <div class="news-letter-div flex items-center flex-wrap justify-between py-16 my-8 main-padding">
+                <div class="news-letter-text">
+                    <h3 class="text-white text-4xl font-bold mb-4">Sign Up For Newsletters</h3>
+                    <p class="text-neutral-300 text-lg font-semibold">Get E-Mail Updates About Our Latest Shop And <span class="text-2xl font-bold text-yellow-500">Special Offers.</span></p>
+                </div>
+                <div class="news-letter-form">
+                    <form action="#">
+                        <input type="email" placeholder="Your Email Adderss" class="w-full h-12 px-5 border rounded outline-none text-xl">
+                        <button type="submit" class="py-3 px-6 mt-6 text-white font-bold rounded-md transition-all duration-300">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="footer">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 main-padding">
+                <div>
+                    <div>
+                        <a href="#">
+                            <img src="{% static 'Images/logo.png' %}" alt="logo-image">
+                        </a>
+                    </div>
+                    <div class="mt-8">
+                        <h3 class="text-black text-2xl font-bold">Contact</h3>
+                    </div>
+                    <div>
+                        <ul class="mt-4">
+                            <li class="text-neutral-400"><span class="text-black font-bold text-lg">Address: </span> 562 Wellington, 32 San Francisco</li>
+                            <li class="text-neutral-400"><span class="text-black font-bold text-lg">Phone: </span>: +01 2222 365 | (+91) 01 2345 6789</li>
+                            <li class="text-neutral-400"><span class="text-black font-bold text-lg">Hours: </span> 10:00 - 18:00. Mon - Sat</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="mt-8">
+                        <h3 class="text-black text-2xl font-bold">About</h3>
+                    </div>
+                    <div>
+                        <ul class="mt-4 flex flex-col gap-2">
+                            <li>
+                                <a href="about.html" class="text-neutral-400 hover:text-black transition duration-100">About Us</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-neutral-400 hover:text-black transition duration-100">Delivery Information</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-neutral-400 hover:text-black transition duration-100">Privacy Policy</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-neutral-400 hover:text-black transition duration-100">Terms & Conditions</a>
+                            </li>
+                            <li>
+                                <a href="contact.html" class="text-neutral-400 hover:text-black transition duration-100">Contact Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div>
+                    <div class="mt-8">
+                        <h3 class="text-black text-2xl font-bold">My Account</h3>
+                    </div>
+                    <div>
+                        <ul class="mt-4 flex flex-col gap-2">
+                            <li>
+                                <a href="signup.html" class="text-neutral-400 hover:text-black transition duration-100">Sign Up</a>
+                            </li>
+                            <li>
+                                <a href="cart.html" class="text-neutral-400 hover:text-black transition duration-100">View Cart</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-neutral-400 hover:text-black transition duration-100">My Whishlist</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-neutral-400 hover:text-black transition duration-100">Track My Order</a>
+                            </li>
+                            <li>
+                                <a href="contact.html" class="text-neutral-400 hover:text-black transition duration-100">Help</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="mt-8">
+                        <h3 class="text-black text-2xl font-bold">Install App</h3>
+                        <p class="mt-3 text-neutral-400">From App Store Or Google Play</p>
+                    </div>
+                    <div class="flex items-center gap-4 mt-3">
+                        <div class="border-2 hover:border-black transition duration-200">
+                            <a href="#">
+                                <img src="{% static 'Images/app.jpg' %}" alt="apple-store">
+                            </a>
+                        </div>
+                        <div class="border-2 hover:border-black transition duration-200">
+                            <a href="#">
+                                <img src="{% static 'Images/play.jpg' %}" alt="google-play">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <p class="text-neutral-400">Secured Payment Gateways</p>
+                        <div class="mt-3">
+                            <a href="#">
+                                <img src="{% static 'Images/pay.png' %}" alt="payment-methods">
+                           </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="follow-us-div">
+                    <div class="mt-2">
+                        <h3 class="text-black text-2xl font-bold">Follow Us</h3>
+                    </div>
+                    <div class="footer-icons flex items-center gap-3 mt-3">
+                        <a href="#">
+                            <i class="fa-brands fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fa-brands fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fa-brands fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fa-brands fa-pinterest text-xl"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fa-brands fa-youtube text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            
+            </div>
+
+            <div class="copyright text-center mb-4">
+                <p class="text-md md:text-lg text-neutral-400">Copyright © 2024. All rights reserved</p>
+            </div>
+        </footer>
+
+    </div>
+    <button class="scrollToTop"><i class="fa-solid fa-angles-up"></i></button>
+
+    {% block js %}
+    {% endblock %}
+
+    <script src="{% static 'JavaScript/main.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tw-elements/js/tw-elements.umd.min.js"></script>
+
+</body>
+</html>

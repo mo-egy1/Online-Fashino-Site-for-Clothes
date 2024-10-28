@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<main>
+    <div class="main-cart-background w-full flex items-center justify-center flex-col p-4">
+        <div class="text-center">
+            <h1 class="text-white text-5xl font-black">#cart</h1>
+            <p class="text-white font-semibold mt-8 uppercase">Add your coupon code & SAVE up to 70 % !</p>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block sections %}
+<section class="cart-table">
+    <div class="main-padding pt-4">
+        <div class="overflow-x-auto">
+            {% if cart_products %}
+                <table class="cart-table w-full min-w-[600px]">
+                    <thead class="border-t border-b border-neutral-300">
+                        <tr>
+                            <td class="text-base sm:text-xl font-semibold text-black py-3">Remove</td>
+                            <td class="text-base sm:text-xl font-semibold text-black py-3">Image</td>
+                            <td class="text-base sm:text-xl font-semibold text-black py-3">Product</td>
+                            <td class="text-base sm:text-xl font-semibold text-black py-3">Price</td>
+                            <td class="text-base sm:text-xl font-semibold text-black py-3">Quantity</td>
+                            <td class="text-base sm:text-xl font-semibold text-black py-3">SubTotal</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Content From JS -->
+                        {% for item in cart_products %}
+                            <tr class="product-row">
+                                <td class="remove-item">
+                                    <button class="remove-btn main-color text-2xl ml-5" data-id="{{item.id}}">
+                                        <i class="fa-regular fa-circle-xmark" onclick="window.location.href='?del={{item.id}}'"></i>
+                                    </button>
+                                </td>
+                                <td class="td-product-image pt-5">
+                                    <img src="{{item.product.image.url}}" alt="product-image" width="80px" height="80px">
+                                </td>
+                                <td class="td-product-name text-lg font-semibold text-black pt-5">
+                                    {{item.product.title}}
+                                </td>
+                                <td class="td-product-price pt-5 text-lg font-semibold text-black">
+                                    ${{item.product.price}}
+                                </td>
+                                <td class="td-product-number pt-5 text-lg font-semibold text-black">
+                                    <input type="number" class="text-center quantity-input" value="{{item.amount}}" readonly data-id="{{item.id}}" min="1">
+                                </td>
+                                <td class="td-product-sub-total pt-5 text-lg font-semibold text-black">
+                                    ${{item.get_price}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="empty-cart text-2xl font-semibold text-neutral-600 mt-5" style="display: none;">Your Cart Is Empty</p>
+            {% endif %}
+
+        </div>
+    </div>
+    <div class="main-padding">
+        <div class="coupon grid grid-cols-1 sm:grid-cols-12 pt-12 pb-16 gap-8">
+            <!-- <div class="col-span-6">
+                <div>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-black">Apply Coupon</h3>
+                </div>
+                <div class="flex items-center gap-5 mt-4">
+                    <input type="text" placeholder="Enter Your Coupon" class="border w-full py-3 px-4 outline-none shadow">
+                    <button type="button" class="text-white text-lg sm:text-xl font-bold py-3 px-5 transition-all duration-200 rounded">Apply</button>
+                </div>
+            </div> -->
+            <div class="col-span-12">
+                <div class="border shadow">
+                    <div class="p-5">
+                        <h2 class="text-xl sm:text-2xl text-black font-bold">Cart Totals</h2>
+                        <table class="sub-total-table w-full mt-5">
+                            <tr>
+                                <td>Cart SubTotal</td>
+                                <td id="totalPrice">$ 0.00</td>
+                            </tr>
+                            <tr>
+                                <td>Shiping Free</td>
+                                <td>$ 0.00</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total</strong></td>
+                                <td id="totalPrice"><strong>$ {{cart_total}}</strong></td>
+                            </tr>
+                        </table>
+                        {% if not cart_products %}
+                            <button type="button" disabled class="text-white p-3 rounded mt-5 font-bold text-lg sm:text-xl transition-all duration-200" onclick="window.location.href='{% url "checkout" %}'">Proceed To Checkout</button>
+                        {% else %}
+                            <button type="button" class="text-white p-3 rounded mt-5 font-bold text-lg sm:text-xl transition-all duration-200" onclick="window.location.href='{% url "checkout" %}'">Proceed To Checkout</button>
+                        {% endif %}
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block js %}
+<script>
+    /*document.addEventListener("DOMContentLoaded", () => {
+        updateCartUI();
+    
+        document.querySelector(".cart-table tbody").addEventListener("click", function(event) {
+            if (event.target.closest(".remove-btn")) {
+                const idToRemove = parseInt(event.target.closest(".remove-btn").dataset.id);
+                removeItemFromCart(idToRemove);
+                updateCartUI();
+            };
+        });
+    });
+    
+    function updateCartUI() {
+        let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+        let cartContainer = document.querySelector(".cart-table tbody");
+        let total = 0;
+    
+        if (cartItems.length > 0) {
+            cartContainer.innerHTML = cartItems.map(item => {
+                total += item.price * item.quantity;
+                return `<tr class="product-row">
+                    <td class="remove-item">
+                        <button class="remove-btn main-color text-2xl ml-5" data-id="${item.id}">
+                            <i class="fa-regular fa-circle-xmark"></i>
+                        </button>
+                    </td>
+                    <td class="td-product-image pt-5">
+                        <img src="${item.image}" alt="product-image" width="80px" height="80px">
+                    </td>
+                    <td class="td-product-name text-lg font-semibold text-black pt-5">
+                        ${item.name}
+                    </td>
+                    <td class="td-product-price pt-5 text-lg font-semibold text-black">
+                        $${item.price}.00
+                    </td>
+                    <td class="td-product-number pt-5 text-lg font-semibold text-black">
+                        <input type="number" class="text-center quantity-input" value="${item.quantity}" data-id="${item.id}" min="1">
+                    </td>
+                    <td class="td-product-sub-total pt-5 text-lg font-semibold text-black">
+                        $${(item.price * item.quantity).toFixed(2)}
+                    </td>
+                </tr>`;
+            }).join("");
+    
+            document.querySelector(".empty-cart").style.display = "none";
+        } else {
+            cartContainer.innerHTML = "";
+            document.querySelector(".empty-cart").style.display = "block";
+        };
+    
+        // Update total prices
+        document.querySelectorAll("#totalPrice").forEach(el => el.textContent = `$${total.toFixed(2)}`);
+    
+        attachQuantityChangeEvent();
+    };
+    
+    function removeItemFromCart(id) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        cart = cart.filter(item => item.id !== id);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartUI(); // Also update the UI after an item is removed
+        showModal("Product Removed From Your Cart");
+    };
+    
+    // Show Message Popup
+    function showModal(message) {
+        const popup = document.createElement("div");
+        popup.style.position = "fixed";
+        popup.style.top = "80px";
+        popup.style.right = "20px";
+        popup.style.padding = "10px 20px";
+        popup.style.backgroundColor = "#48AE40";
+        popup.style.color = "white";
+        popup.style.borderRadius = "5px";
+        popup.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
+        popup.style.zIndex = "1000";
+        popup.style.display = "flex";
+        popup.style.alignItems = "center";
+        popup.style.justifyContent = "center";
+        popup.style.gap = "10px";
+    
+        const icon = document.createElement("i");
+        icon.className = "fa-solid fa-check";
+        icon.style.fontSize = "1.2rem";
+    
+        const text = document.createElement("span");
+        text.textContent = message;
+    
+        popup.appendChild(icon);
+        popup.appendChild(text);
+    
+        document.body.appendChild(popup);
+    
+        // Remove the popup after 2.5 seconds
+        setTimeout(() => {
+            document.body.removeChild(popup);
+        }, 2500);
+    };
+    function attachQuantityChangeEvent() {
+        document.querySelectorAll(".quantity-input").forEach(input => {
+            input.addEventListener("change", function() {
+                let id = parseInt(this.dataset.id);
+                let quantity = parseInt(this.value);
+                updateQuantity(id, quantity);
+            });
+        });
+    };
+    
+    function updateQuantity(id, quantity) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let found = cart.find(item => item.id === id);
+        if (found) {
+            found.quantity = quantity;
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCartUI(); // Recalculate totals and update UI
+        };
+    };*/
+        </script>
+    
+{% endblock %}

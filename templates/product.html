@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block sections %}
+<section class="product-section">
+    <div class="main-padding pt-0 md:pt-12">
+        <div class="grid grid-cols-12 gap-5">
+            <div class="col-span-12 md:col-span-5 lg:col-span-6 xl:col-span-4 order-2 md:order-1">
+                <div class="product-image">
+                    <img src="{{product.image.url}}" alt="product-image" id="mainImg">
+                </div>
+            </div>
+            <div class="col-span-12 md:col-span-7 lg:col-span-6 xl:col-span-8 order-1 md:order-2">
+                <nav class="w-full rounded-md">
+                    <ol class="list-reset flex">
+                    <li>
+                        <a href="/" class="text-emerald-600 text-xl transition duration-150 ease-in-out hover:text-green-800 focus:text-primary-accent-300 active:text-primary-accent-300 motion-reduce:transition-none dark:text-primary-400">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <span class="mx-2 text-neutral-400 text-xl">/</span>
+                    </li>
+                    <li class="text-neutral-400 text-xl">
+                        {{product.category.name}}
+                    </li>
+                    </ol>
+                </nav>
+                <div class="mt-8">
+                    <h2 class="product-name text-3xl text-black font-bold">
+                        {{product.title}}
+                    </h2>
+                </div>
+                <div class="mt-8">
+                    <h3 class="product-price text-2xl font-bold text-black">
+                        $ {{product.price}}
+                    </h3>
+                </div>
+                <form method="POST" action="{% url 'cart_add' product.id %}">
+                  {% csrf_token %}
+                    <!-- <div class="products-select mt-3">
+                        <select name="product-size" id="productSize">
+                            <option value="#">Select Size</option>
+                            <option value="#">XL</option>
+                            <option value="#">XXL</option>
+                            <option value="#">Small</option>
+                            <option value="#">Large</option>
+                        </select>
+                    </div> -->
+                    <input type="number" value="1" class="product-number mt-3" name="amount">
+                    <button class="add-to-cart-button px-3 ml-4 rounded text-white transition-all duration-200" type="submit"  id="addToCart">Add To Cart</button>
+                </form>
+                <div>
+                    <div class="mt-10">
+                        <h3 class="text-black font-bold text-2xl">Product Details</h3>
+                        <p class="text-neutral-500 text-lg">{{product.description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
